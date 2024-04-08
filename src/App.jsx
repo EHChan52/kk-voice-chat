@@ -13,6 +13,7 @@ function App() {
     setIsLoggedIn(true);
     setUsername(username);
     setIsJoinedIn(false);
+    setChatroomID(null);
   };
 
   const handleLogout = () => {
@@ -23,14 +24,23 @@ function App() {
   };
 
   const handleJoin = (chatroomID) => {
+    setIsLoggedIn(true);
     setIsJoinedIn(true);
+    setUsername('1');
     setChatroomID(chatroomID);
   };
 
   return (
     <div className="App">
-      {isLoggedIn && !isJoinedIn ? <Dashboard username={username} onLogout={handleLogout} onJoin={handleJoin} /> : <Login onLogin={handleLogin} />}
-      {isLoggedIn && isJoinedIn && <Chatroom chatroomID={chatroomID} onLogout={handleLogout} />}
+      {isLoggedIn ? (
+        isJoinedIn ? (
+          <Chatroom chatroomID={chatroomID}/>
+        ) : (
+          <Dashboard username={username} onLogout={handleLogout} onJoin={handleJoin} />
+        )
+      ) : (
+        <Login onLogin={handleLogin} />
+      )}
     </div>
   );
 }

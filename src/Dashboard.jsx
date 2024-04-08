@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import 'tailwindcss/tailwind.css';
 import userLogo from './assets/react.svg';
-import Chatroom from './chatroom'; 
+
 
 
 const Dashboard = ({ username, onLogout, onJoin}) => {
@@ -25,9 +25,11 @@ const Dashboard = ({ username, onLogout, onJoin}) => {
     setShowPeople(false);
   };
 
+
+
   const handleJoinClick = (chatroomID) => {
     setChatroomID(chatroomID);
-    window.location.href = `/chatroom/${chatroomID}`;
+    onJoin(chatroomID);
   };
 
 
@@ -90,10 +92,10 @@ const Dashboard = ({ username, onLogout, onJoin}) => {
           </button>
         </div>
       </header>
-        <main className="flex-1 overflow-y-auto p-2">
-          {showPeople && people.filter(person => person.name.toLowerCase().includes(searchTerm.toLowerCase())).map((person,index) => (
-            <ul role="list" className="divide-y divide-gray-100">
-                <li key={person.email} className="flex justify-between gap-x-6 py-5">
+      <main className="flex-1 overflow-y-auto p-2">
+      {showPeople && people.filter(person => person.name.toLowerCase().includes(searchTerm.toLowerCase())).map((person,index) => (
+        <ul role="list" className="divide-y divide-gray-100">
+            <li key={person.email} className="flex justify-between gap-x-6 py-5">
                   <div className="flex min-w-0 gap-x-4">
                     <img className="h-12 w-12 flex-none rounded-full bg-gray-50" src={person.logo} alt="" />
                     <div className="min-w-0 flex-auto text-left">
@@ -111,15 +113,15 @@ const Dashboard = ({ username, onLogout, onJoin}) => {
                           <p className="text-xs leading-5 text-gray-500">Room ID:{index}</p>
                         </div>
                     </div>
-                    <button onClick={() => handleJoinClick(index)} className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded hover:bg-indigo-700">Join</button>
+                    <button onClick={() => {handleJoinClick(index); onJoin(person.chatroomID);}} className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded hover:bg-indigo-700">Join</button>
                   </div>
-                </li>
-            </ul>
-          ))}
-          {showInfo && (
-            <h1>{chatroomID}</h1>
-          )}
-        </main>
+            </li>
+        </ul>
+      ))}
+      {showInfo && (
+        <h1>{chatroomID}</h1>
+      )}
+    </main>
       </div>
     </div>
   );
